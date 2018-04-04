@@ -250,12 +250,36 @@ LIMIT 5;
 
 
 #7f. Write a query to display how much business, in dollars, each store brought in.
+SELECT 
+    s.store_id, SUM(p.amount) as 'Total Amount ($)'
+FROM
+    store s
+        LEFT JOIN
+    staff t ON s.store_id = t.store_id
+        LEFT JOIN
+    payment p ON t.staff_id = p.staff_id
+GROUP BY s.store_id;
 
 #7g. Write a query to display for each store its store ID, city, and country.
+SELECT 
+    s.store_id, a.address, c.city, y.country
+FROM
+    store s
+        LEFT JOIN
+    address a ON s.address_id = a.address_id
+        LEFT JOIN
+    city c ON a.city_id = c.city_id
+        LEFT JOIN
+    country y ON c.country_id = y.country_id;
 
-#7h. List the top five genres in gross revenue in descending order. (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
+#7h. List the top five genres in gross revenue in descending order. 
+# (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 
-#8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
+
+
+#8a. In your new role as an executive, you would like to have an easy way of viewing the 
+# Top five genres by gross revenue. Use the solution from the problem above to create a view. 
+# If you haven't solved 7h, you can substitute another query to create a view.
 
 #8b. How would you display the view that you created in 8a?
 
