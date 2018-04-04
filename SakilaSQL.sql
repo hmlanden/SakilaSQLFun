@@ -157,7 +157,14 @@ WHERE
 
 # 6e. Using the tables payment and customer and the JOIN command, list the total paid by each customer. 
 # List the customers alphabetically by last name:
-
+SELECT 
+    c.customer_id, first_name, last_name, SUM(amount)
+FROM
+    customer c
+        INNER JOIN
+    payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+ORDER BY last_name ASC;
 
 # 7a. The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended 
 # consequence, films starting with the letters K and Q have also soared in popularity. Use subqueries 
