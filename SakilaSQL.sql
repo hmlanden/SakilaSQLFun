@@ -274,16 +274,54 @@ FROM
 
 #7h. List the top five genres in gross revenue in descending order. 
 # (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
-
+SELECT 
+    y.name AS 'Category Name', SUM(p.amount) AS 'Gross Revenue'
+FROM
+    payment p
+        INNER JOIN
+    rental r ON p.rental_id = r.rental_id
+        INNER JOIN
+    inventory i ON r.inventory_id = i.inventory_id
+        INNER JOIN
+    film f ON i.film_id = f.film_id
+        INNER JOIN
+    film_category c ON f.film_id = c.film_id
+        INNER JOIN
+    category y ON c.category_id = y.category_id
+GROUP BY c.category_id
+ORDER BY SUM(p.amount) DESC
+LIMIT 5;
 
 
 #8a. In your new role as an executive, you would like to have an easy way of viewing the 
 # Top five genres by gross revenue. Use the solution from the problem above to create a view. 
 # If you haven't solved 7h, you can substitute another query to create a view.
+CREATE VIEW revenue_by_genre AS
+    SELECT 
+        y.name AS 'Category Name', SUM(p.amount) AS 'Gross Revenue'
+    FROM
+        payment p
+            INNER JOIN
+        rental r ON p.rental_id = r.rental_id
+            INNER JOIN
+        inventory i ON r.inventory_id = i.inventory_id
+            INNER JOIN
+        film f ON i.film_id = f.film_id
+            INNER JOIN
+        film_category c ON f.film_id = c.film_id
+            INNER JOIN
+        category y ON c.category_id = y.category_id
+    GROUP BY c.category_id
+    ORDER BY SUM(p.amount) DESC
+    LIMIT 5;
 
 #8b. How would you display the view that you created in 8a?
+SELECT 
+    *
+FROM
+    revenue_by_genre;
 
 #8c. You find that you no longer need the view top_five_genres. Write a query to delete it.
-
+DROP VIEW IF EXISTS sakila.revenue_by_genre;
 
 
