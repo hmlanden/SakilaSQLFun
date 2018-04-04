@@ -215,12 +215,39 @@ WHERE
         FROM
             country
         WHERE
-            country = 'CANADA')
+            country = 'CANADA');
 
 
-#7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as famiy films.
+#7d. Sales have been lagging among young families, and you wish to target all family movies 
+# for a promotion. Identify all movies categorized as famiy films.
+SELECT 
+    f.title
+FROM
+    film f
+        INNER JOIN
+    film_category c ON f.film_id = c.film_id
+WHERE
+    c.category_id = (SELECT 
+            category_id
+        FROM
+            category
+        WHERE
+            name = 'Family');
+
 
 #7e. Display the most frequently rented movies in descending order.
+SELECT 
+    f.title, SUM(r.rental_id) AS 'Num Rentals'
+FROM
+    film f
+        INNER JOIN
+    inventory i ON i.film_id = f.film_id
+        INNER JOIN
+    rental r ON r.inventory_id = i.inventory_id
+GROUP BY r.rental_id
+ORDER BY SUM(r.rental_id) DESC
+LIMIT 5;
+
 
 #7f. Write a query to display how much business, in dollars, each store brought in.
 
